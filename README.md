@@ -54,9 +54,5 @@
 - Touch: SPI接口
 - Flash: SPI接口
 - WiFi: UART接口 (ESP8266)
-- Key/PWM: GPIO接口
+- Key: GPIO接口
 
-## 许可证
-MIT License
-
-Co-Authored-By: Claude Code <noreply@anthropic.com>
