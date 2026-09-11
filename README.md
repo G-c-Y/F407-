@@ -1,7 +1,7 @@
-# STM32F407ZGT6 工业管理在线监控系统
+# STM32F407ZGT6 工业物联网边缘网关
 
 ## 项目简介
-基于STM32F407ZGT6微控制器开发的工业管理在线监控系统，集成LVGL图形界面、FreeRTOS实时操作系统、Modbus通信协议和MQTT物联网协议。
+基于STM32F407ZGT6微控制器开发的工业物联网边缘网关，集成LVGL图形界面、FreeRTOS实时操作系统、Modbus通信协议和MQTT物联网协议。
 
 ## 主要特性
 - **MCU**: STM32F407ZGT6 (168MHz主频，1MB Flash，192KB RAM)
