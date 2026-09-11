@@ -69,7 +69,7 @@ void App_AT_UpdateNetworkState(void)
 
     network_check_count++;
 
-    /* 心跳保活 + 掉线检测（仅就绪后生效） */
+    /* 心跳保活 + 掉线检测（仅就绪后生效）*/
     EspAT_Update();
 
     ready = EspAT_IsReady();
