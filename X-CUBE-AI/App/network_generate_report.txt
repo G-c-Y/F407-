@@ -1,0 +1,191 @@
+ST Edge AI Core v2.1.0-20194 329b0e98d
+Created date          : 2026-09-14 00:42:20
+Parameters            : generate --target stm32f4 --name network -m E:/STM32-GongYewanguan/AI/sensor_anomaly_model.tflite --compression none --verbosity 1 --workspace C:/Users/A/AppData/Local/Temp/mxAI_workspace626813607524002891221269084615251 --output C:/Users/A/.stm32cubemx/network_output
+
+Exec/report summary (generate)
+--------------------------------------------------------------------------------------------------------------------------
+model file         :   E:\STM32-GongYewanguan\AI\sensor_anomaly_model.tflite                                              
+type               :   tflite                                                                                             
+c_name             :   network                                                                                            
+compression        :   none                                                                                               
+options            :   allocate-inputs, allocate-outputs                                                                  
+optimization       :   balanced                                                                                           
+target/series      :   stm32f4                                                                                            
+workspace dir      :   C:\Users\A\AppData\Local\Temp\mxAI_workspace626813607524002891221269084615251                      
+output dir         :   C:\Users\A\.stm32cubemx\network_output                                                             
+model_fmt          :   ss/sa per channel                                                                                  
+model_name         :   sensor_anomaly_model                                                                               
+model_hash         :   0xaf3ef02538fe97cb1a166c06a55fd7b0                                                                 
+params #           :   123 items (168 B)                                                                                  
+--------------------------------------------------------------------------------------------------------------------------
+input 1/1          :   'serving_default_keras_tensor0', int8(1x8), 8 Bytes, QLinear(0.002498198,-128,int8), activations   
+output 1/1         :   'nl_3', int8(1x3), 3 Bytes, QLinear(0.003906250,-128,int8), activations                            
+macc               :   168                                                                                                
+weights (ro)       :   168 B (168 B) (1 segment) / -324(-65.9%) vs float model                                            
+activations (rw)   :   996 B (996 B) (1 segment) *                                                                        
+ram (total)        :   996 B (996 B) = 996 + 0 + 0                                                                        
+--------------------------------------------------------------------------------------------------------------------------
+(*) 'input'/'output' buffers can be used from the activations buffer
+
+Model name - sensor_anomaly_model
+------ ------------------------------------------------ ----------- ------------ ------ -------------------------------- --- -------------- -------------- --------------------- 
+m_id   layer (type,original)                            oshape      param/size     macc                     connected to   | c_size         c_macc         c_type                
+------ ------------------------------------------------ ----------- ------------ ------ -------------------------------- --- -------------- -------------- --------------------- 
+0      serving_default_keras_tensor0 (Input, )          [b:1,c:8]                                                          | +96(+100.0%)   +72(+100.0%)   Dense_[0]             
+       sequential_1_dense_1_MatMul (Placeholder, )      [b:8,c:8]   64/64                                                  | -64(-100.0%)                  
+       sequential_1_dense.._1_BiasAdd (Placeholder, )   [b:8]       8/32                                                   | -32(-100.0%)                  
+       gemm_0 (Gemm, FULLY_CONNECTED)                   [b:1,c:8]                    72    serving_default_keras_tensor0   |                -72(-100.0%)   
+                                                                                             sequential_1_dense_1_MatMul   | 
+                                                                                          sequential_1_dense.._1_BiasAdd   | 
+       nl_0_nl (Nonlinearity, FULLY_CONNECTED)          [b:1,c:8]                     8                           gemm_0   |                -8(-100.0%)    
+------ ------------------------------------------------ ----------- ------------ ------ -------------------------------- --- -------------- -------------- --------------------- 
+1      sequential_1_dense_1_2_MatMul (Placeholder, )    [b:4,c:8]   32/32                                                  | +16(+50.0%)    +36(+100.0%)   Dense_[1]             
+       sequential_1_dense.._2_BiasAdd (Placeholder, )   [b:4]       4/16                                                   | -16(-100.0%)                  
+       gemm_1 (Gemm, FULLY_CONNECTED)                   [b:1,c:4]                    36                          nl_0_nl   |                -36(-100.0%)   
+                                                                                           sequential_1_dense_1_2_MatMul   | 
+                                                                                          sequential_1_dense.._2_BiasAdd   | 
+       nl_1_nl (Nonlinearity, FULLY_CONNECTED)          [b:1,c:4]                     4                           gemm_1   |                -4(-100.0%)    
+------ ------------------------------------------------ ----------- ------------ ------ -------------------------------- --- -------------- -------------- --------------------- 
+2      sequential_1_dense_2_1_MatMul (Placeholder, )    [b:3,c:4]   12/12                                                  | +12(+100.0%)   +15(+100.0%)   Dense_[2]             
+       sequential_1_dense_2_1_BiasAdd (Placeholder, )   [b:3]       3/12                                                   | -12(-100.0%)                  
+       gemm_2 (Gemm, FULLY_CONNECTED)                   [b:1,c:3]                    15                          nl_1_nl   |                -15(-100.0%)   
+                                                                                           sequential_1_dense_2_1_MatMul   | 
+                                                                                          sequential_1_dense_2_1_BiasAdd   | 
+------ ------------------------------------------------ ----------- ------------ ------ -------------------------------- --- -------------- -------------- --------------------- 
+3      nl_3 (Nonlinearity, SOFTMAX)                     [b:1,c:3]                    45                           gemm_2   |                               Nonlinearity_[o][3]   
+------ ------------------------------------------------ ----------- ------------ ------ -------------------------------- --- -------------- -------------- --------------------- 
+model/c-model: macc=180/168 -12(-6.7%) weights=168/168  activations=--/996 io=--/0
+
+
+
+Generated C-graph summary
+------------------------------------------------------------------------------------------------------------------------
+model name            : sensor_anomaly_model
+c-name                : network
+c-node #              : 4
+c-array #             : 15
+activations size      : 996 (1 segment)
+weights size          : 168 (1 segment)
+macc                  : 168
+inputs                : ['serving_default_keras_tensor0_output']
+outputs               : ['nl_3_output']
+
+C-Arrays (15)
+------ -------------------------------------- ----------- ------------------------- ----------- --------- 
+c_id   name (*_array)                         item/size   domain/mem-pool           c-type      comment   
+------ -------------------------------------- ----------- ------------------------- ----------- --------- 
+0      gemm_0_bias                            8/32        weights/weights           const s32             
+1      gemm_0_output                          8/8         activations/**default**   s8                    
+2      gemm_0_scratch0                        48/96       activations/**default**   s16                   
+3      gemm_0_weights                         64/64       weights/weights           const s8              
+4      gemm_1_bias                            4/16        weights/weights           const s32             
+5      gemm_1_output                          4/4         activations/**default**   s8                    
+6      gemm_1_scratch0                        28/56       activations/**default**   s16                   
+7      gemm_1_weights                         32/32       weights/weights           const s8              
+8      gemm_2_bias                            3/12        weights/weights           const s32             
+9      gemm_2_output                          3/3         activations/**default**   s8                    
+10     gemm_2_scratch0                        19/38       activations/**default**   s16                   
+11     gemm_2_weights                         12/12       weights/weights           const s8              
+12     nl_3_output                            3/3         activations/**default**   s8          /output   
+13     nl_3_scratch0                          248/992     activations/**default**   s32                   
+14     serving_default_keras_tensor0_output   8/8         activations/**default**   s8          /input    
+------ -------------------------------------- ----------- ------------------------- ----------- --------- 
+
+C-Layers (4)
+------ ---------------- ---- --------------- ------ ----- ----------------------------------------- ------------------ 
+c_id   name (*_layer)   id   layer_type      macc   rom   tensors                                   shape (array id)   
+------ ---------------- ---- --------------- ------ ----- ----------------------------------------- ------------------ 
+0      gemm_0           0    Dense           72     96    I: serving_default_keras_tensor0_output   int8(1x8) (14)     
+                                                          S: gemm_0_scratch0                                           
+                                                          W: gemm_0_weights                         int8(8x8) (3)      
+                                                          W: gemm_0_bias                            int32(8) (0)       
+                                                          O: gemm_0_output                          int8(1x8) (1)      
+------ ---------------- ---- --------------- ------ ----- ----------------------------------------- ------------------ 
+1      gemm_1           1    Dense           36     48    I: gemm_0_output                          int8(1x8) (1)      
+                                                          S: gemm_1_scratch0                                           
+                                                          W: gemm_1_weights                         int8(4x8) (7)      
+                                                          W: gemm_1_bias                            int32(4) (4)       
+                                                          O: gemm_1_output                          int8(1x4) (5)      
+------ ---------------- ---- --------------- ------ ----- ----------------------------------------- ------------------ 
+2      gemm_2           2    Dense           15     24    I: gemm_1_output                          int8(1x4) (5)      
+                                                          S: gemm_2_scratch0                                           
+                                                          W: gemm_2_weights                         int8(3x4) (11)     
+                                                          W: gemm_2_bias                            int32(3) (8)       
+                                                          O: gemm_2_output                          int8(1x3) (9)      
+------ ---------------- ---- --------------- ------ ----- ----------------------------------------- ------------------ 
+3      nl_3             3    Nonlinearity    45     0     I: gemm_2_output                          int8(1x3) (9)      
+                                                          S: nl_3_scratch0                                             
+                                                          O: nl_3_output                            int8(1x3) (12)     
+------ ---------------- ---- --------------- ------ ----- ----------------------------------------- ------------------ 
+
+
+
+Number of operations per c-layer
+------- ------ --------------------- ----- ------------ 
+c_id    m_id   name (type)             #op         type 
+------- ------ --------------------- ----- ------------ 
+0       0      gemm_0 (Dense)           72   smul_s8_s8 
+1       1      gemm_1 (Dense)           36   smul_s8_s8 
+2       2      gemm_2 (Dense)           15   smul_s8_s8 
+3       3      nl_3 (Nonlinearity)      45     op_s8_s8 
+------- ------ --------------------- ----- ------------ 
+total                                  168 
+
+Number of operation types
+---------------- ----- ----------- 
+operation type       #           % 
+---------------- ----- ----------- 
+smul_s8_s8         123       73.2% 
+op_s8_s8            45       26.8% 
+
+Complexity report (model)
+------ ------------------------------- ------------------------- ------------------------- ------ 
+m_id   name                            c_macc                    c_rom                     c_id   
+------ ------------------------------- ------------------------- ------------------------- ------ 
+0      serving_default_keras_tensor0   ||||||||||||||||  42.9%   ||||||||||||||||  57.1%   [0]    
+1      sequential_1_dense_1_2_MatMul   ||||||||          21.4%   ||||||||          28.6%   [1]    
+2      sequential_1_dense_2_1_MatMul   ||||               8.9%   ||||              14.3%   [2]    
+3      nl_3                            ||||||||||        26.8%   |                  0.0%   [3]    
+------ ------------------------------- ------------------------- ------------------------- ------ 
+macc=168 weights=168 act=996 ram_io=0
+ 
+ Requested memory size by section - "stm32f4" target
+ ------------------------------ -------- -------- ------- ------- 
+ module                             text   rodata    data     bss 
+ ------------------------------ -------- -------- ------- ------- 
+ NetworkRuntime1010_CM4_GCC.a     10,752        0       0       0 
+ network.o                           572      288   1,744     116 
+ network_data.o                       48       16      88       0 
+ lib (toolchain)*                      0        0       0       0 
+ ------------------------------ -------- -------- ------- ------- 
+ RT total**                       11,372      304   1,832     116 
+ ------------------------------ -------- -------- ------- ------- 
+ weights                               0      168       0       0 
+ activations                           0        0       0     996 
+ io                                    0        0       0       0 
+ ------------------------------ -------- -------- ------- ------- 
+ TOTAL                            11,372      472   1,832   1,112 
+ ------------------------------ -------- -------- ------- ------- 
+ *  toolchain objects (libm/libgcc*)
+ ** RT AI runtime objects (kernels+infrastructure)
+  
+  Summary - "stm32f4" target
+  ---------------------------------------------------
+               FLASH (ro)      %*   RAM (rw)       % 
+  ---------------------------------------------------
+  RT total         13,508   98.8%      1,948   66.2% 
+  ---------------------------------------------------
+  TOTAL            13,676              2,944         
+  ---------------------------------------------------
+  *  rt/total
+
+
+Generated files (7)
+-------------------------------------------------------------- 
+C:\Users\A\.stm32cubemx\network_output\network_data_params.h   
+C:\Users\A\.stm32cubemx\network_output\network_data_params.c   
+C:\Users\A\.stm32cubemx\network_output\network_data.h          
+C:\Users\A\.stm32cubemx\network_output\network_data.c          
+C:\Users\A\.stm32cubemx\network_output\network_config.h        
+C:\Users\A\.stm32cubemx\network_output\network.h               
+C:\Users\A\.stm32cubemx\network_output\network.c               
